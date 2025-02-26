@@ -37,5 +37,6 @@ RUN curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cl
   echo '#!/bin/sh\njava -jar /usr/local/bin/openapi-generator-cli.jar "$@"' > /usr/local/bin/openapi-generator && \
   chmod +x /usr/local/bin/openapi-generator
 
+RUN curl -sL install.mob.sh | sh
 # Set the working directory inside the container
 WORKDIR /workspace
