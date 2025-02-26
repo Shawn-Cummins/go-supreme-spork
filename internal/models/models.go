@@ -36,6 +36,7 @@ type Geography struct {
     PopulationDistribution TextField `json:"Population distribution"`
     NaturalHazards      TextField `json:"Natural hazards"`
     GeographyNote       TextField `json:"Geography - note"`
+    AdditionalFields    map[string]interface{} `json:"AdditionalFields"`
 }
 
 type TextField struct {
