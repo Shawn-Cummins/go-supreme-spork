@@ -12,6 +12,22 @@ type AddFieldRequest struct {
 	Value     interface{} `json:"value"`
 }
 
+type ServerImpl struct {
+	FieldName string      `json:"field_name"`
+	Value     interface{} `json:"value"`
+}
+
+func (s *ServerImpl) GetFoo(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("GetFoo called")
+}
+
+func (s *ServerImpl) GetGeography(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("GetGeography called")
+}
+func (s *ServerImpl) PostGeographyAdd(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("PostGeographyAdd called")
+}
+
 func GeoHandler(db *db.InMemoryDB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("GeoHandler called")

@@ -8,6 +8,10 @@ all: build
 build:
 	go build -o $(BINARY_NAME) .
 
+.PHONY: gen
+gen:
+	go generate ./...
+
 .PHONY: run
 run: build
 	./$(BINARY_NAME)
