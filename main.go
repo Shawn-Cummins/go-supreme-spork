@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"log"
 	"net/http"
-	// "supreme-spork/internal/db"
+	"supreme-spork/internal/db"
 	"supreme-spork/internal/handlers"
 	"supreme-spork/internal/api"
 )
@@ -13,10 +13,6 @@ import (
 var usJson []byte
 
 // func main() {
-// 	// inMemoryDB, err := db.NewInMemoryDB(usJson)
-// 	// if err != nil {
-// 	// 	log.Fatalf("Failed to initialize database: %v", err)
-// 	// }
 // 	http.Handle("/api", api.HandlerWithOptions(&handlers.ServerImpl{}, api.StdHTTPServerOptions{}))
 // 	// http.HandleFunc("/foo", handlers.FooHandler(usJson))
 // 	// http.HandleFunc("/geography", handlers.GeoHandler(inMemoryDB))
@@ -25,8 +21,14 @@ var usJson []byte
 // }
 
 func main() {
+	inMemoryDB, err := db.NewInMemoryDB(usJson)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
 	// Create an instance of your implementation.
-	var server api.ServerInterface = &handlers.ServerImpl{}
+	var server api.ServerInterface = &handlers.ServerImpl{
+		DB: inMemoryDB,
+	}
  
 	// Create a new HTTP multiplexer.
 	mux := http.NewServeMux()

@@ -22,6 +22,12 @@ func NewInMemoryDB(jsonData []byte) (*InMemoryDB, error) {
 	}, nil
 }
 
+func (db *InMemoryDB) GetIntro() models.Introduction {
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+	return db.data.Introduction
+}
+
 func (db *InMemoryDB) GetGeography() models.Geography {
 	db.mu.RLock()
 	defer db.mu.RUnlock()

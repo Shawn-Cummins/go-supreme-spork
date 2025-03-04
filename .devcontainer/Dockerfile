@@ -23,9 +23,6 @@ RUN go install github.com/spf13/cobra-cli@latest
 # Install gotestsum, an alternate testing tool with prettier output
 RUN go install gotest.tools/gotestsum@latest
 
-# Install testing library
-RUN go install gotest.tools/gotestsum@latest
-
 # Install Oh My Zsh non-interactively
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 

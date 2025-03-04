@@ -3,13 +3,13 @@
   "info": {
     "title": "Basic API",
     "version": "1.0.0",
-    "description": "A basic API spec for /foo, /geography, and /geography/add endpoints."
+    "description": "A basic API spec for /intro, /geography, and /geography/add endpoints."
   },
   "paths": {
-    "/foo": {
+    "/intro": {
       "get": {
-        "summary": "Foo endpoint",
-        "description": "Handles the foo endpoint using the usJson handler.",
+        "summary": "Introduct endpoint",
+        "description": "Handles the intro endpoint using the usJson handler.",
         "responses": {
           "200": {
             "description": "Successful response with JSON data.",
@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "object",
                   "example": {
-                    "message": "foo response"
+                    "message": "Introduction response"
                   }
                 }
               }
