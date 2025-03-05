@@ -1,8 +1,10 @@
 package db
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"supreme-spork/internal/models"
 	"sync"
 )
@@ -22,16 +24,16 @@ func NewInMemoryDB(jsonData []byte) (*InMemoryDB, error) {
 	}, nil
 }
 
-func (db *InMemoryDB) GetIntro() models.Introduction {
+func (db *InMemoryDB) GetIntro(ctx context.Context) *models.Introduction {
 	db.mu.RLock()
 	defer db.mu.RUnlock()
-	return db.data.Introduction
+	return &db.data.Introduction
 }
 
-func (db *InMemoryDB) GetGeography() models.Geography {
+func (db *InMemoryDB) GetGeography(ctx context.Context) *models.Geography {
 	db.mu.RLock()
 	defer db.mu.RUnlock()
-	return db.data.Geography
+	return &db.data.Geography
 }
 
 func (db *InMemoryDB) AddGeographyField(fieldName string, value interface{}) error {
@@ -60,4 +62,8 @@ func (db *InMemoryDB) RemoveGeographyField(fieldName string) error {
 
 	delete(db.data.Geography.AdditionalFields, fieldName)
 	return nil
+}
+
+func (db *InMemoryDB) UpsertGeography(ctx context.Context, g models.Geography) {
+		fmt.Println("UpsertGeography called")
 }

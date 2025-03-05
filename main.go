@@ -21,13 +21,13 @@ var usJson []byte
 // }
 
 func main() {
-	inMemoryDB, err := db.NewInMemoryDB(usJson)
+	CountryDB, err := db.NewInMemoryDB(usJson)
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
 	// Create an instance of your implementation.
 	var server api.ServerInterface = &handlers.ServerImpl{
-		DB: inMemoryDB,
+		DB: CountryDB,
 	}
  
 	// Create a new HTTP multiplexer.
