@@ -21,15 +21,15 @@ type PostGeographyAddJSONRequestBody PostGeographyAddJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// Foo endpoint
-	// (GET /foo)
-	GetFoo(w http.ResponseWriter, r *http.Request)
 	// Geography endpoint
 	// (GET /geography)
 	GetGeography(w http.ResponseWriter, r *http.Request)
 	// Add Geography Field
 	// (POST /geography/add)
 	PostGeographyAdd(w http.ResponseWriter, r *http.Request)
+	// Introduct endpoint
+	// (GET /intro)
+	GetIntro(w http.ResponseWriter, r *http.Request)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -40,20 +40,6 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.Handler) http.Handler
-
-// GetFoo operation middleware
-func (siw *ServerInterfaceWrapper) GetFoo(w http.ResponseWriter, r *http.Request) {
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetFoo(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
-}
 
 // GetGeography operation middleware
 func (siw *ServerInterfaceWrapper) GetGeography(w http.ResponseWriter, r *http.Request) {
@@ -74,6 +60,20 @@ func (siw *ServerInterfaceWrapper) PostGeographyAdd(w http.ResponseWriter, r *ht
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.PostGeographyAdd(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetIntro operation middleware
+func (siw *ServerInterfaceWrapper) GetIntro(w http.ResponseWriter, r *http.Request) {
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetIntro(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -186,7 +186,6 @@ func HandlerFromMuxWithBaseURL(si ServerInterface, m ServeMux, baseURL string) h
 
 // HandlerWithOptions creates http.Handler with additional options
 func HandlerWithOptions(si ServerInterface, options StdHTTPServerOptions) http.Handler {
-	fmt.Printf("HandlerWithOptions called\n options: %+v\n", options)
 	m := options.BaseRouter
 
 	if m == nil {
@@ -204,9 +203,9 @@ func HandlerWithOptions(si ServerInterface, options StdHTTPServerOptions) http.H
 		ErrorHandlerFunc:   options.ErrorHandlerFunc,
 	}
 
-	m.HandleFunc("GET "+options.BaseURL+"/foo", wrapper.GetFoo)
 	m.HandleFunc("GET "+options.BaseURL+"/geography", wrapper.GetGeography)
 	m.HandleFunc("POST "+options.BaseURL+"/geography/add", wrapper.PostGeographyAdd)
+	m.HandleFunc("GET "+options.BaseURL+"/intro", wrapper.GetIntro)
 
 	return m
 }
